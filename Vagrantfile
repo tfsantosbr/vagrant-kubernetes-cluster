@@ -5,6 +5,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "hashicorp/bionic64"
   config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.provision "shell", path: "scripts/install.sh"
 
   config.vm.provider "hyperv" do |h|
     h.memory = 2048
