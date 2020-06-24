@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo kubeadm init
+sudo kubeadm --apiserver-advertise-address <IP>
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
