@@ -1,11 +1,14 @@
+#!/bin/bash
+
 sudo su
 
 apt-get update
 
 swapoff -a
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+sed -i '/swap/d' /etc/fstab
 
 curl -fsSL  https://get.docker.com | bash
+sudo usermod -aG docker vagrant
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
