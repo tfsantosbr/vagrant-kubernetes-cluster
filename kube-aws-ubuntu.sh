@@ -26,3 +26,19 @@ apt-get install -y kubelet kubeadm kubectl
 
 kubeadm init --apiserver-cert-extra-sans=<EC2 PUBLIC IP>
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+# workers
+
+kubeadm join ....
+
+# haproxy
+
+frontend http_front
+  bind *:80
+  stats uri /haproxy?stats
+  default_backend http_back
+
+backend http_back
+  balance roundrobin
+  server kube <worker-node1-ip>:80
+  server kube <worker-node2-ip>:80
