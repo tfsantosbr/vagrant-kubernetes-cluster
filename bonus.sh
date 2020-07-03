@@ -27,3 +27,13 @@ rm /etc/kubernetes/pki/apiserver.*
 kubeadm init phase certs all --apiserver-advertise-address=0.0.0.0 --apiserver-cert-extra-sans=<PUBLIC_IP>
 docker rm -f `docker ps -q -f 'name=k8s_kube-apiserver*'`
 systemctl restart kubelet
+
+# login to ECR
+
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 517530119326.dkr.ecr.us-east-1.amazonaws.com
+kubectl -n goliza-staging delete secret regcred
+kubectl -n goliza-staging create secret generic regcred --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
+
+kubectl -n goliza-demo delete secret regcred
+kubectl -n goliza-demo create secret generic regcred --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
